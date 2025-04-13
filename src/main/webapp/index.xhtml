@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 15px;
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .link-btn {
+            margin-left: 10px;
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+<h:body>
+
+    <h2>All Cases:</h2>
+    <ol>
+        <ui:repeat value="#{casesOverview.allCases}" var="lawCase">
+            <li>
+                <h:link value="#{lawCase.title}" outcome="caseDetails" styleClass="link-btn">
+                    <f:param name="caseId" value="#{lawCase.id}" />
+                </h:link>
+            </li>
+        </ui:repeat>
+    </ol>
+
+    <h2>Create New Case:</h2>
+    <h:form>
+        <h:outputLabel for="caseTitle" value="Case Title:" />
+        <h:inputText id="caseTitle" value="#{casesOverview.caseToCreate.title}" required="true" />
+
+        <h:outputLabel for="caseDescription" value="Description:" />
+        <h:inputText id="caseDescription" value="#{casesOverview.caseToCreate.description}" required="true" />
+
+        <h:commandButton value="Create Case" action="#{casesOverview.createCaseAndReload}" styleClass="button" />
+    </h:form>
+
+    <h2>All Lawyers:</h2>
+    <ol>
+        <ui:repeat value="#{lawyers.allLawyers}" var="lawyer">
+            <li>
+                #{lawyer.name} - #{lawyer.specialization}
+                <h:link value="Edit" outcome="editLawyer" styleClass="link-btn">
+                    <f:param name="lawyerId" value="#{lawyer.id}" />
+                </h:link>
+            </li>
+        </ui:repeat>
+    </ol>
+
+    <h2>Create New Lawyer:</h2>
+    <h:form>
+        <h:outputLabel for="name" value="Full Name:" />
+        <h:inputText id="name" value="#{lawyers.lawyerToCreate.name}" required="true" a:placeholder="Name Surname" />
+
+        <h:outputLabel for="spec" value="Specialization:" />
+        <h:inputText id="spec" value="#{lawyers.lawyerToCreate.specialization}" required="true" a:placeholder="Murder" />
+
+        <h:commandButton value="Add Lawyer" action="#{lawyers.createLawyer}" styleClass="button" />
+    </h:form>
+
+    <p>
+        <h:link outcome="myBatis/cases" value="MyBatis implementation" styleClass="link-btn"/>
+    </p>
+
+</h:body>
+</html>

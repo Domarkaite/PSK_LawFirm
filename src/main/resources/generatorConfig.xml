@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="LawFirmDS" targetRuntime="MyBatis3Simple">
+
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:C:/Users/milda/h2database/lawfirmdb;AUTO_SERVER=TRUE"
+                        userId="sa"
+                        password="sa" />
+
+        <javaModelGenerator targetPackage="lawFirm.mybatis.model" targetProject="MAVEN" />
+
+        <sqlMapGenerator targetPackage="lawFirm.mybatis.xml" targetProject="MAVEN" />
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="lawFirm.mybatis.dao" targetProject="MAVEN" />
+
+        <table schema="public" tableName="CLIENT" domainObjectName="Client">
+            <generatedKey column="ID" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+        <table schema="public" tableName="LAWYER" domainObjectName="Lawyer">
+            <generatedKey column="ID" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+        <table schema="public" tableName="LAW_CASE" domainObjectName="LawCase">
+            <generatedKey column="ID" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+        <table schema="public" tableName="CASE_CLIENT">
+
+        </table>
+    </context>
+</generatorConfiguration>

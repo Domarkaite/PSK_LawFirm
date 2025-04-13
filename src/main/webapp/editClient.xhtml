@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head />
+<h:body>
+    <f:metadata>
+        <f:viewParam name="clientId" value="#{editClient.clientId}" />
+        <f:viewParam name="caseId" value="#{editClient.caseId}" />
+        <f:viewAction action="#{editClient.loadClient}" />
+    </f:metadata>
+
+    <h2>Edit Client</h2>
+
+    <h:form>
+        <h:outputLabel for="name" value="Full Name:" />
+        <h:inputText id="name" value="#{editClient.client.fullName}" />
+
+        <br/>
+
+        <h:outputLabel for="email" value="Email:" />
+        <h:inputText id="email" value="#{editClient.client.email}" />
+
+        <br/>
+
+        <h:commandButton value="Save" action="#{editClient.save}" />
+
+    </h:form>
+
+    <h:link value="Back to Case" outcome="caseDetails">
+    <f:param name="caseId" value="#{editClient.caseId}" />
+    </h:link>
+</h:body>
+</html>
+
