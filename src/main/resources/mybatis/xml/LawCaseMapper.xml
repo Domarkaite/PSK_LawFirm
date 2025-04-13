@@ -63,4 +63,7 @@
     select ID, DESCRIPTION, TITLE, LAWYER_ID
     from PUBLIC.LAW_CASE
   </select>
+  <select id="selectByLawyerId" resultType="lawFirm.mybatis.model.LawCase">
+    SELECT * FROM LAW_CASE WHERE LAWYER_ID = #{lawyerId}
+  </select>
 </mapper>

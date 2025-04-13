@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .field-label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .case-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #3498db;
+        }
+
+        .link-btn {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewParam name="lawyerId" value="#{lawyerDetailsBatis.lawyerId}" />
+        <f:event type="preRenderView" listener="#{lawyerDetailsBatis.load}" />
+    </f:metadata>
+
+    <h2>Lawyer Details</h2>
+
+    <div class="section">
+        <p>
+            <span class="field-label">Name:</span>
+            #{lawyerDetailsBatis.lawyer.name}
+        </p>
+        <p>
+            <span class="field-label">Specialization:</span>
+            #{lawyerDetailsBatis.lawyer.specialization}
+        </p>
+    </div>
+
+    <h2>Assigned Cases</h2>
+
+    <div class="section">
+        <ui:repeat value="#{lawyerDetailsBatis.lawCases}" var="case">
+            <div class="case-item">
+                <p>
+                    <strong>Title:</strong> #{case.title}<br />
+                    <strong>Description:</strong> #{case.description}
+                </p>
+            </div>
+        </ui:repeat>
+
+        <h:outputText value="No cases found." rendered="#{empty lawyerDetailsBatis.lawCases}" />
+    </div>
+
+    <h:link value="← Back to Lawyers" outcome="/myBatis/lawyers" styleClass="link-btn" />
+</h:body>
+</html>

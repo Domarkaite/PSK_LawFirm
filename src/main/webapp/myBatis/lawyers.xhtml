@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <style>
         body {
@@ -23,7 +24,7 @@
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         form {
@@ -78,26 +79,29 @@
 </h:head>
 <h:body>
 
-    <h2>Law Cases:</h2>
+    <h2>Our Lawyers:</h2>
     <ol>
-        <ui:repeat value="#{casesBatis.allCases}" var="case">
+        <ui:repeat value="#{lawyersBatis.allLawyers}" var="lawyer">
             <li>
-                <h:link value="#{case.title}" outcome="clients?caseId=#{case.id}" styleClass="link-btn" />
+                <h:link outcome="/myBatis/lawyerDetails" value="#{lawyer.name}">
+                    <f:param name="lawyerId" value="#{lawyer.id}" />
+                </h:link>
+                <strong>Specialization:</strong> #{lawyer.specialization}
             </li>
         </ui:repeat>
     </ol>
 
-    <h2>Create New Case:</h2>
+    <h2>Create New Lawyer:</h2>
     <h:form>
-        <h:outputLabel for="caseTitle" value="Case Title:" />
-        <h:inputText id="caseTitle" value="#{casesBatis.caseToCreate.title}" required="true" />
+        <h:outputLabel for="lawyerName" value="Name:" />
+        <h:inputText id="lawyerName" value="#{lawyersBatis.lawyerToCreate.name}" required="true" />
 
-        <h:outputLabel for="caseDescription" value="Description:" />
-        <h:inputText id="caseDescription" value="#{casesBatis.caseToCreate.description}" required="true" />
+        <h:outputLabel for="specialization" value="Specialization:" />
+        <h:inputText id="specialization" value="#{lawyersBatis.lawyerToCreate.specialization}" required="true" />
 
-        <h:commandButton value="Add New Case" action="#{casesBatis.createCase}" styleClass="button" />
+        <h:commandButton value="Add New Lawyer" action="#{lawyersBatis.createLawyer}" styleClass="button" />
     </h:form>
 
-    <h:link value="Back to index" outcome="/index" styleClass="link-btn"/>
+    <h:link value="← Back to index" outcome="/index" styleClass="link-btn" />
 </h:body>
 </html>

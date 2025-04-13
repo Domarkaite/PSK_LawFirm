@@ -4,68 +4,150 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-<h:head/>
+<h:head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        label, .field-label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .link-btn {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</h:head>
+
 <h:body>
     <f:metadata>
         <f:viewParam name="caseId" value="#{caseDetails.caseId}" />
         <f:viewAction action="#{caseDetails.loadCaseDetails}" />
     </f:metadata>
 
-    <h2>Details for Case #{caseDetails.lawCase.title}</h2>
-    <p>Description: #{caseDetails.lawCase.description}</p>
+    <h2>Details for Case: #{caseDetails.lawCase.title}</h2>
 
-    <h3>Lawyer:</h3>
-    <h:panelGroup rendered="#{caseDetails.lawCase.lawyer != null}">
-        #{caseDetails.lawCase.lawyer.name}
-    </h:panelGroup>
+    <div class="section">
+        <p>
+            <span class="field-label">Description:</span>
+            #{caseDetails.lawCase.description}
+        </p>
+    </div>
 
-    <h:panelGroup rendered="#{caseDetails.lawCase.lawyer == null}">
-        <h:form>
-            <h:selectOneMenu value="#{caseDetails.lawyerIdToAdd}">
-                <f:selectItems value="#{caseDetails.availableLawyers}" var="lawyer"
-                               itemValue="#{lawyer.id}" itemLabel="#{lawyer.name}" />
-            </h:selectOneMenu>
-            <h:commandButton value="Assign Lawyer" action="#{caseDetails.assignLawyer}" />
-        </h:form>
-    </h:panelGroup>
+    <h3>Assigned Lawyer</h3>
+    <div class="section">
+        <h:panelGroup rendered="#{caseDetails.lawCase.lawyer != null}">
+            <p>#{caseDetails.lawCase.lawyer.name}</p>
+        </h:panelGroup>
 
-    <h3>Clients:</h3>
-    <ul>
-        <ui:repeat value="#{caseDetails.lawCase.clients}" var="client">
-            <li>
-                #{client.fullName}
-                (<h:link outcome="editClient">
+        <h:panelGroup rendered="#{caseDetails.lawCase.lawyer == null}">
+            <h:form>
+                <label for="lawyerDropdown">Select Lawyer:</label>
+                <h:selectOneMenu id="lawyerDropdown" value="#{caseDetails.lawyerIdToAdd}">
+                    <f:selectItems value="#{caseDetails.availableLawyers}" var="lawyer"
+                                   itemValue="#{lawyer.id}" itemLabel="#{lawyer.name}" />
+                </h:selectOneMenu>
+                <h:commandButton value="Assign Lawyer" action="#{caseDetails.assignLawyer}" styleClass="button" />
+            </h:form>
+        </h:panelGroup>
+    </div>
+
+    <h3>Clients</h3>
+    <div class="section">
+        <ul>
+            <ui:repeat value="#{caseDetails.lawCase.clients}" var="client">
+                <li>
+                    #{client.fullName}
+                    (<h:link outcome="editClient" styleClass="link-btn">
                     <f:param name="clientId" value="#{client.id}" />
                     <f:param name="caseId" value="#{caseDetails.caseId}" />
                     Edit
                 </h:link>)
-            </li>
-        </ui:repeat>
-    </ul>
+                </li>
+            </ui:repeat>
+        </ul>
 
-    <h:form>
-        <h:outputLabel value="Add Client:"/>
-        <h:selectOneMenu id="clientDropdown" value="#{caseDetails.clientIdToAdd}">
-            <f:selectItems value="#{caseDetails.availableClients}" var="client"
-                           itemValue="#{client.id}" itemLabel="#{client.fullName}" />
-        </h:selectOneMenu>
-        <h:commandButton value="Add" action="#{caseDetails.addClientToCase}" />
-    </h:form>
+        <h:form>
+            <label for="clientDropdown">Add Client:</label>
+            <h:selectOneMenu id="clientDropdown" value="#{caseDetails.clientIdToAdd}">
+                <f:selectItems value="#{caseDetails.availableClients}" var="client"
+                               itemValue="#{client.id}" itemLabel="#{client.fullName}" />
+            </h:selectOneMenu>
+            <h:commandButton value="Add" action="#{caseDetails.addClientToCase}" styleClass="button" />
+        </h:form>
+    </div>
 
-    <h3>Create New Client:</h3>
-    <h:form>
-        <h:outputLabel for="fullName" value="Full Name:" />
-        <h:inputText id="fullName" value="#{clients.clientToCreate.fullName}" required="true" a:placeholder="Name Surname" />
+    <h3>Create New Client</h3>
+    <div class="section">
+        <h:form>
+            <h:outputLabel for="fullName" value="Full Name:" />
+            <h:inputText id="fullName" value="#{clients.clientToCreate.fullName}" required="true" a:placeholder="Name Surname" />
 
-        <br/>
+            <h:outputLabel for="email" value="Email:" />
+            <h:inputText id="email" value="#{clients.clientToCreate.email}" required="true" a:placeholder="example@example.com" />
 
-        <h:outputLabel for="email" value="Email:" />
-        <h:inputText id="email" value="#{clients.clientToCreate.email}" required="true" a:placeholder="example@example.com" />
+            <h:commandButton value="Create Client" action="#{caseDetails.createClientAndReload}" styleClass="button" />
+        </h:form>
+    </div>
 
-        <br/><br/>
-        <h:commandButton value="Create Client" action="#{caseDetails.createClientAndReload}" />
-    </h:form>
-
-    <h:link outcome="index" value="Back to All Cases"/>
+    <h:link outcome="index" value="← Back to All Cases" styleClass="link-btn" />
 </h:body>
 </html>
