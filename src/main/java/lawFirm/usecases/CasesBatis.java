@@ -6,6 +6,8 @@ import lawFirm.mybatis.dao.LawCaseMapper;
 import lawFirm.mybatis.model.LawCase;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Model;
 import javax.faces.view.ViewScoped;
@@ -16,7 +18,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named("casesBatis")
-@SessionScoped
+@ViewScoped
 public class CasesBatis implements Serializable{
 
     @Inject

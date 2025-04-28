@@ -1,5 +1,6 @@
 package lawFirm.usecases;
 
+import components.PageVisits;
 import lawFirm.entities.Client;
 import lawFirm.entities.LawCase;
 import lawFirm.entities.Lawyer;
@@ -22,6 +23,9 @@ public class CaseDetails implements Serializable {
 
     @Inject
     private LawCaseDAO lawCaseDAO;
+
+    @Inject
+    private PageVisits pageVisits;
 
     @Inject
     private ClientDAO clientDAO;
@@ -54,10 +58,13 @@ public class CaseDetails implements Serializable {
     }
 
     public void loadCaseDetails() {
+        pageVisits.incrementCasePage();
+
         lawCase = lawCaseDAO.findOne(caseId);
         availableClients = clientDAO.findAll();
         availableLawyers = lawyerDAO.findAll();
     }
+
 
     public void addClientToCase() {
         Client client = clientDAO.findOne(clientIdToAdd);
@@ -79,5 +86,27 @@ public class CaseDetails implements Serializable {
         clients.createClient();
         refreshAvailableClients();
         return "caseDetails?faces-redirect=true&caseId=" + caseId;
+    }
+
+    public void assignLawyerWithSpecializationNote() {
+        Lawyer lawyer = lawyerDAO.findOne(lawyerIdToAdd);
+        if (lawyer != null) {
+            lawCase.setLawyer(lawyer);
+
+            StringBuilder note = new StringBuilder("Assigned to ");
+            note.append(lawyer.getName());
+            if (lawyer.getSpecialization() != null && !lawyer.getSpecialization().trim().isEmpty()) {
+                note.append(" (Specialization: ").append(lawyer.getSpecialization()).append(")");
+            }
+            note.append(".");
+
+            String currentDesc = lawCase.getDescription() != null ? lawCase.getDescription().trim() : "";
+            if (!currentDesc.startsWith(note.toString())) {
+                lawCase.setDescription(note + "\n" + currentDesc);
+            }
+
+            lawCaseDAO.update(lawCase);
+            loadCaseDetails();
+        }
     }
 }

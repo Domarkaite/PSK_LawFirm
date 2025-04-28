@@ -57,7 +57,7 @@
         <f:viewParam name="lawyerId" value="#{lawyerDetailsBatis.lawyerId}" />
         <f:event type="preRenderView" listener="#{lawyerDetailsBatis.load}" />
     </f:metadata>
-
+    <p><em>Details page viewed:</em> #{pageVisits.casePageCount} times</p>
     <h2>Lawyer Details</h2>
 
     <div class="section">

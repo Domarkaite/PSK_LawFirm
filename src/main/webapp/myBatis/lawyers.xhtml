@@ -87,6 +87,7 @@
                     <f:param name="lawyerId" value="#{lawyer.id}" />
                 </h:link>
                 <strong>Specialization:</strong> #{lawyer.specialization}
+                <strong>Cases:</strong> #{lawyer.cases.size()}
             </li>
         </ui:repeat>
     </ol>

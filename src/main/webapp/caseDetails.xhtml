@@ -82,7 +82,7 @@
         <f:viewParam name="caseId" value="#{caseDetails.caseId}" />
         <f:viewAction action="#{caseDetails.loadCaseDetails}" />
     </f:metadata>
-
+    <p><em>Details page opened:</em> #{pageVisits.casePageCount} times</p>
     <h2>Details for Case: #{caseDetails.lawCase.title}</h2>
 
     <div class="section">
@@ -105,7 +105,7 @@
                     <f:selectItems value="#{caseDetails.availableLawyers}" var="lawyer"
                                    itemValue="#{lawyer.id}" itemLabel="#{lawyer.name}" />
                 </h:selectOneMenu>
-                <h:commandButton value="Assign Lawyer" action="#{caseDetails.assignLawyer}" styleClass="button" />
+                <h:commandButton value="Assign Lawyer" action="#{caseDetails.assignLawyerWithSpecializationNote}" styleClass="button" />
             </h:form>
         </h:panelGroup>
     </div>

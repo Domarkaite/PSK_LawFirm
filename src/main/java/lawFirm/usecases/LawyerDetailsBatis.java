@@ -1,5 +1,6 @@
 package lawFirm.usecases;
 
+import components.PageVisits;
 import lawFirm.mybatis.dao.LawyerMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,6 @@ import java.io.Serializable;
 import java.util.List;
 @Named
 @ViewScoped
-
 public class LawyerDetailsBatis implements Serializable {
 
     private Long lawyerId;
@@ -25,6 +25,9 @@ public class LawyerDetailsBatis implements Serializable {
     private Lawyer lawyer;
 
     private List<LawCase> lawCases;
+
+    @Inject
+    private PageVisits pageVisits;
 
     @Inject
     private LawyerMapper lawyerMapper;
@@ -36,6 +39,8 @@ public class LawyerDetailsBatis implements Serializable {
         if (lawyerId != null) {
             lawyer = lawyerMapper.selectByPrimaryKey(lawyerId);
             lawCases = lawCaseMapper.selectByLawyerId(lawyerId);
+
+            pageVisits.incrementCasePage();
         }
     }
 
