@@ -12,6 +12,9 @@
 
     <h2>Edit Client</h2>
 
+    <!-- 🔽 Show feedback messages -->
+    <h:messages globalOnly="true" layout="table" style="color:red;" />
+
     <h:form>
         <h:outputLabel for="name" value="Full Name:" />
         <h:inputText id="name" value="#{editClient.client.fullName}" />
@@ -28,8 +31,7 @@
     </h:form>
 
     <h:link value="← Back to Case" outcome="caseDetails">
-    <f:param name="caseId" value="#{editClient.caseId}" />
+        <f:param name="caseId" value="#{editClient.caseId}" />
     </h:link>
 </h:body>
 </html>
-

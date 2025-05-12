@@ -3,6 +3,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <style>
@@ -94,20 +95,23 @@
 
     <h3>Assigned Lawyer</h3>
     <div class="section">
-        <h:panelGroup rendered="#{caseDetails.lawCase.lawyer != null}">
-            <p>#{caseDetails.lawCase.lawyer.name}</p>
-        </h:panelGroup>
+        <h:form>
+            <p>
+                <strong>Currently Assigned:</strong>
+                <h:outputText value="#{caseDetails.lawCase.lawyer != null ? caseDetails.lawCase.lawyer.name : 'None'}" />
+            </p>
 
-        <h:panelGroup rendered="#{caseDetails.lawCase.lawyer == null}">
-            <h:form>
-                <label for="lawyerDropdown">Select Lawyer:</label>
+            <h:panelGroup rendered="#{caseDetails.lawCase.lawyer == null}">
+                <h:outputLabel for="lawyerDropdown" value="Assign New Lawyer:" />
                 <h:selectOneMenu id="lawyerDropdown" value="#{caseDetails.lawyerIdToAdd}">
+                    <f:selectItem itemLabel="-- Select a Lawyer --" itemValue="#{null}" />
                     <f:selectItems value="#{caseDetails.availableLawyers}" var="lawyer"
                                    itemValue="#{lawyer.id}" itemLabel="#{lawyer.name}" />
                 </h:selectOneMenu>
+
                 <h:commandButton value="Assign Lawyer" action="#{caseDetails.assignLawyerWithSpecializationNote}" styleClass="button" />
-            </h:form>
-        </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
     </div>
 
     <h3>Clients</h3>
@@ -137,16 +141,31 @@
 
     <h3>Create New Client</h3>
     <div class="section">
-        <h:form>
+        <!-- Form 1: create client -->
+        <h:form id="createClientForm">
             <h:outputLabel for="fullName" value="Full Name:" />
-            <h:inputText id="fullName" value="#{clients.clientToCreate.fullName}" required="true" a:placeholder="Name Surname" />
+            <h:inputText id="fullName" value="#{clients.clientToCreate.fullName}" required="true"
+                         a:placeholder="Name Surname" />
 
             <h:outputLabel for="email" value="Email:" />
-            <h:inputText id="email" value="#{clients.clientToCreate.email}" required="true" a:placeholder="example@example.com" />
+            <h:inputText id="email" value="#{clients.clientToCreate.email}" required="true"
+                         a:placeholder="example@example.com" />
 
             <h:commandButton value="Create Client" action="#{caseDetails.createClientAndReload}" styleClass="button" />
         </h:form>
+
+        <!-- Form 2: generate number -->
+        <h:form id="generateNumberForm">
+            <h:outputText value="#{generateNumber.jerseyGenerationStatus}" />
+            <h:commandButton value="Generate secret name?"
+                             disabled="#{generateNumber.jerseyGenerationRunning}"
+                             action="#{generateNumber.generateNewJerseyNumber()}"
+                             styleClass="button">
+                <f:param name="caseId" value="#{caseDetails.caseId}" />
+            </h:commandButton>
+        </h:form>
     </div>
+
 
     <h:link outcome="index" value="← Back to All Cases" styleClass="link-btn" />
 </h:body>

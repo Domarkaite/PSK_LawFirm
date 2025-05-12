@@ -7,9 +7,12 @@ import lombok.Setter;
 import lawFirm.entities.Client;
 import lawFirm.persistence.ClientDAO;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
 
 @Named
@@ -35,7 +38,15 @@ public class EditClient implements Serializable {
     }
 
     public String save() {
-        clientDAO.update(client); // or whatever your save logic is
-        return "caseDetails?faces-redirect=true&caseId=" + caseId;
+        try {
+            clientDAO.update(client);
+            return "caseDetails?faces-redirect=true&caseId=" + caseId;
+        } catch (OptimisticLockException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Kitas naudotojas pakeitė šį klientą. Pakartokite veiksmą.", null));
+            client = clientDAO.findOne(client.getId());
+            return null;
+        }
     }
 }

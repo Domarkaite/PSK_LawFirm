@@ -30,6 +30,9 @@ public class Client implements Serializable {
     @ManyToMany(mappedBy = "clients")
     private List<LawCase> cases;
 
+    @Version
+    private Integer version;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

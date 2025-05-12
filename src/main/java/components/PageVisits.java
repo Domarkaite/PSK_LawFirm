@@ -1,11 +1,8 @@
 package components;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Named

@@ -26,8 +26,6 @@ public class LawyersBatis implements Serializable {
     @PostConstruct
     public void init() {
         allLawyers = lawyerMapper.selectLawyersWithCases();
-        //allLawyers = lawyerMapper.selectAll();
-        //allLawyers.forEach(lawyer -> lawyer.setCases(lawyerMapper.selectLawyerWithCasesById(lawyer.getId()).getCases()));
     }
 
     public List<Lawyer> getAllLawyers() {
@@ -50,7 +48,6 @@ public class LawyersBatis implements Serializable {
         return "/myBatis/lawyers?faces-redirect=true";
     }
 
-    // NEW: Optional method to load a lawyer with cases if needed
     public Lawyer loadLawyerWithCases(Long lawyerId) {
         return lawyerMapper.selectLawyerWithCasesById(lawyerId);
     }

@@ -6,52 +6,33 @@ import lawFirm.entities.LawCase;
 import lawFirm.entities.Lawyer;
 import lawFirm.persistence.ClientDAO;
 import lawFirm.persistence.LawCaseDAO;
-
 import lawFirm.persistence.LawyerDAO;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
+
 @Named
-@ViewScoped
+@SessionScoped
 public class CaseDetails implements Serializable {
 
-    @Inject
-    private LawCaseDAO lawCaseDAO;
+    @Inject private LawCaseDAO lawCaseDAO;
+    @Inject private PageVisits pageVisits;
+    @Inject private ClientDAO clientDAO;
+    @Inject private LawyerDAO lawyerDAO;
+    @Inject private Clients clients;
 
-    @Inject
-    private PageVisits pageVisits;
+    @Getter private LawCase lawCase;
+    @Getter private List<Client> availableClients;
+    @Getter private List<Lawyer> availableLawyers;
 
-    @Inject
-    private ClientDAO clientDAO;
-
-    @Getter
-    private LawCase lawCase;
-
-    @Getter
-    private List<Client> availableClients;
-
-    @Getter @Setter
-    private Long clientIdToAdd;
-    @Getter @Setter
-    private Long caseId;
-
-    @Inject
-    private LawyerDAO lawyerDAO;
-
-    @Getter
-    private List<Lawyer> availableLawyers;
-
-    @Getter @Setter
-    private Long lawyerIdToAdd;
-
-    @Inject
-    private Clients clients;
+    @Getter @Setter private Long clientIdToAdd;
+    @Getter @Setter private Long lawyerIdToAdd;
+    @Getter @Setter private Long caseId;
 
     public void refreshAvailableClients() {
         this.availableClients = clients.getAllClients();
@@ -59,12 +40,10 @@ public class CaseDetails implements Serializable {
 
     public void loadCaseDetails() {
         pageVisits.incrementCasePage();
-
         lawCase = lawCaseDAO.findOne(caseId);
         availableClients = clientDAO.findAll();
         availableLawyers = lawyerDAO.findAll();
     }
-
 
     public void addClientToCase() {
         Client client = clientDAO.findOne(clientIdToAdd);
