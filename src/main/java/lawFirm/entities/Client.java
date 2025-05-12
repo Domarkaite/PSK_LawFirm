@@ -10,8 +10,7 @@ import java.util.Objects;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
-        @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email = :email")
+        @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
 })
 @Table(name = "CLIENT")
 @Getter @Setter

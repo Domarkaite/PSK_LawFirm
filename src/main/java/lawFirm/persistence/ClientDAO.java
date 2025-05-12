@@ -27,12 +27,6 @@ public class ClientDAO {
         return em.createNamedQuery("Client.findAll", Client.class).getResultList();
     }
 
-    public Client findByEmail(String email) {
-        return em.createNamedQuery("Client.findByEmail", Client.class)
-                .setParameter("email", email)
-                .getSingleResult();
-    }
-
     @Transactional
     public Client update(Client client) {
         return em.merge(client);

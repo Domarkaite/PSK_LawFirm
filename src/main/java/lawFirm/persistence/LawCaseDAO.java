@@ -27,12 +27,6 @@ public class LawCaseDAO {
         return em.createNamedQuery("LawCase.findAll", LawCase.class).getResultList();
     }
 
-    public LawCase findByTitle(String title) {
-        return em.createNamedQuery("LawCase.findByTitle", LawCase.class)
-                .setParameter("title", title)
-                .getSingleResult();
-    }
-
     @Transactional
     public LawCase update(LawCase lawCase) {
         return em.merge(lawCase);

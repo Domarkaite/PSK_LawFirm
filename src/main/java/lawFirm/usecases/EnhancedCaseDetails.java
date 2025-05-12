@@ -5,7 +5,6 @@ import lawFirm.persistence.LawCaseDAO;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Specializes;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 @SessionScoped
 @Specializes

@@ -1,8 +1,6 @@
 package lawFirm.usecases;
 
 import lawFirm.mybatis.dao.LawyerMapper;
-import lombok.Getter;
-import lombok.Setter;
 import lawFirm.mybatis.model.Lawyer;
 
 import javax.annotation.PostConstruct;

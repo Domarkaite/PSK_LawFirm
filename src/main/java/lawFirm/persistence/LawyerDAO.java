@@ -27,12 +27,6 @@ public class LawyerDAO {
         return em.createNamedQuery("Lawyer.findAll", Lawyer.class).getResultList();
     }
 
-    public List<Lawyer> findBySpecialization(String specialization) {
-        return em.createNamedQuery("Lawyer.findBySpecialization", Lawyer.class)
-                .setParameter("specialization", specialization)
-                .getResultList();
-    }
-
     @Transactional
     public Lawyer update(Lawyer lawyer) {
         return em.merge(lawyer);
